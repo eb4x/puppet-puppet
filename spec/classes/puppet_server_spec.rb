@@ -125,6 +125,7 @@ describe 'puppet' do
             .with_ensure('directory')
             .with_owner('puppet')
             .with_group(nil)
+            .with_recurse(false)
             .with_mode('0755')
 
           should contain_file(sharedir).with_ensure('directory')
@@ -411,6 +412,11 @@ describe 'puppet' do
       context 'with directory environments owner' do
         let(:params) { super().merge(server_environments_owner: 'apache') }
         it { should contain_file(environments_dir).with_owner('apache') }
+      end
+
+      context 'with directory environments recursive mangement' do
+        let(:params) { super().merge(server_environments_recurse: true) }
+        it { should contain_file(environments_dir).with_recurse(true) }
       end
 
       context 'with no common modules directory' do
